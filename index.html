@@ -36,7 +36,7 @@
             <div class="mb-10">
                 <img src="https://d3dac9gdq8t83x.cloudfront.net/media/static/images/hor-verde.png" alt="Logo Metas 2025" class="w-full h-auto object-contain">
                 <div class="mt-2 pl-1">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tablero de Gestión 2025</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">CUBOS 2025</span>
                 </div>
             </div>
 
@@ -361,10 +361,19 @@
 
         // --- FUNCIONES DE REPORTE ---
         function openReport() {
+            if (!lastGeneratedData.length) return;
+
             const unidad = document.getElementById('unidad-select').value;
             const periodo = document.getElementById('mes-select').options[document.getElementById('mes-select').selectedIndex].text;
             const categoria = document.getElementById('tab-title').innerText;
             const fechaActual = new Date().toLocaleDateString();
+
+            // Calcular tendencia agregada de la categoría
+            const tendenciaAgregada = Array(12).fill(0);
+            lastGeneratedData.forEach(ind => {
+                ind.series.forEach((val, i) => tendenciaAgregada[i] += val);
+            });
+            const maxVal = Math.max(...tendenciaAgregada) || 1;
 
             const content = `
                 <div class="border-b-4 border-slate-900 pb-8 mb-8 flex justify-between items-center">
@@ -422,17 +431,16 @@
                     </tbody>
                 </table>
 
-                <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200 mb-10">
-                    <p class="text-[10px] font-black text-slate-400 uppercase mb-4 text-center">Gráfica de Tendencia Anual</p>
-                    <div class="h-48 flex items-end justify-between px-4 gap-2">
+                <div class="bg-slate-100 p-8 rounded-2xl border border-slate-200 mb-10">
+                    <p class="text-[10px] font-black text-slate-400 uppercase mb-6 text-center">Gráfica de Tendencia Anual (Categoría Completa)</p>
+                    <div class="h-48 flex items-end justify-between px-6 gap-2">
                         ${mesesShort.map((m, i) => {
-                            const val = lastGeneratedData[0].series[i];
-                            const max = Math.max(...lastGeneratedData[0].series);
-                            const height = (val / max) * 100;
+                            const val = tendenciaAgregada[i];
+                            const height = (val / maxVal) * 100;
                             return `
-                                <div class="flex-1 flex flex-col items-center">
-                                    <div class="w-full bg-green-600 rounded-t-sm" style="height: ${height}%"></div>
-                                    <span class="text-[8px] font-bold text-slate-400 mt-2">${m}</span>
+                                <div class="flex-1 flex flex-col items-center group h-full justify-end">
+                                    <div class="w-full bg-green-600 rounded-t-sm min-h-[2px]" style="height: ${height}%"></div>
+                                    <span class="text-[8px] font-bold text-slate-500 mt-2">${m}</span>
                                 </div>
                             `;
                         }).join('')}
