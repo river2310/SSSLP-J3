@@ -104,7 +104,7 @@
                         <i data-lucide="calendar-range" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none w-5 h-5"></i>
                     </div>
 
-                    <!-- Selector de Unidad -->
+                    <!-- Selector de Unidad (Lista Completa Actualizada) -->
                     <div class="relative">
                         <select onchange="updateDashboard()" id="unidad-select" class="appearance-none bg-white border border-slate-200 rounded-xl px-5 py-3 pr-10 shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none font-medium cursor-pointer min-w-[320px] max-w-full">
                             <option value="GENERAL">JURISDICCIÓN SANITARIA (TOTAL)</option>
@@ -127,6 +127,25 @@
                                 <option>CENTRO DE SALUD MARAVILLAS</option>
                                 <option>VILLA HIDALGO</option>
                                 <option>SANTA MARÍA DEL RÍO</option>
+                                <option>TORTUGAS DE ARRIBA</option>
+                                <option>SAN CRISTOBAL</option>
+                                <option>SALITRAL DE CARRERA</option>
+                                <option>MILPA GRANDE</option>
+                                <option>LOS LOBOS</option>
+                                <option>LA MODERNA</option>
+                                <option>LA DULCITA</option>
+                                <option>GUADIANA</option>
+                                <option>EL POZO</option>
+                                <option>EL CARRIZAL</option>
+                                <option>EL CARMEN</option>
+                            </optgroup>
+                            <optgroup label="Unidades Médicas Móviles">
+                                <option>UNIDAD MÉDICA MÓVIL SAN JOSÉ</option>
+                                <option>UNIDAD MÉDICA MÓVIL LOS CHARCOS</option>
+                                <option>UNIDAD MÉDICA MÓVIL LA PARADA DEL ZARCIDO</option>
+                                <option>UNIDAD MÉDICA MÓVIL EMILIANO ZAPATA</option>
+                                <option>UNIDAD MEDICA MOVIL CONTRERAS</option>
+                                <option>UNIDAD MÉDICA MÓVIL BARRÍO DE SANTIAGO</option>
                             </optgroup>
                         </select>
                         <i data-lucide="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none w-5 h-5"></i>
@@ -163,7 +182,7 @@
         </main>
     </div>
 
-    <!-- VISTA DE REPORTE (MODAL E IMPRESIÓN) -->
+    <!-- VISTA DE REPORTE -->
     <div id="report-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4 no-print">
         <div class="bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative">
             <div class="sticky top-0 bg-white border-b border-slate-100 p-4 flex justify-between items-center z-10">
@@ -177,10 +196,7 @@
                     </button>
                 </div>
             </div>
-            
-            <div id="report-content" class="p-10 text-slate-900 bg-white">
-                <!-- Se llena dinámicamente -->
-            </div>
+            <div id="report-content" class="p-10 text-slate-900 bg-white"></div>
         </div>
     </div>
 
@@ -263,7 +279,6 @@
             const indicadores = configBase[currentTab];
             let totalValoresVista = 0;
             let totalMetasVista = 0;
-            
             lastGeneratedData = [];
 
             indicadores.forEach((ind, index) => {
@@ -299,7 +314,6 @@
 
                 totalValoresVista += logro;
                 totalMetasVista += meta;
-
                 lastGeneratedData.push({ ...ind, logro, meta: Math.round(meta), series: valoresAnuales });
 
                 const ctx = document.getElementById(`chart-${index}`).getContext('2d');
@@ -359,16 +373,13 @@
             }
         }
 
-        // --- FUNCIONES DE REPORTE ---
         function openReport() {
             if (!lastGeneratedData.length) return;
-
             const unidad = document.getElementById('unidad-select').value;
             const periodo = document.getElementById('mes-select').options[document.getElementById('mes-select').selectedIndex].text;
             const categoria = document.getElementById('tab-title').innerText;
             const fechaActual = new Date().toLocaleDateString();
 
-            // Calcular tendencia agregada de la categoría
             const tendenciaAgregada = Array(12).fill(0);
             lastGeneratedData.forEach(ind => {
                 ind.series.forEach((val, i) => tendenciaAgregada[i] += val);
@@ -389,7 +400,6 @@
                         <p class="font-bold">${fechaActual}</p>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-8 mb-10">
                     <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
                         <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Unidad Médica / Jurisdicción</p>
@@ -400,9 +410,7 @@
                         <p class="text-xl font-bold text-slate-800">${periodo}</p>
                     </div>
                 </div>
-
                 <h3 class="text-lg font-black text-slate-900 mb-4 border-l-4 border-green-600 pl-3 uppercase">Resumen de ${categoria}</h3>
-                
                 <table class="w-full mb-10 text-sm border-collapse">
                     <thead>
                         <tr class="bg-slate-900 text-white">
@@ -430,7 +438,6 @@
                         }).join('')}
                     </tbody>
                 </table>
-
                 <div class="bg-slate-100 p-8 rounded-2xl border border-slate-200 mb-10">
                     <p class="text-[10px] font-black text-slate-400 uppercase mb-6 text-center">Gráfica de Tendencia Anual (Categoría Completa)</p>
                     <div class="h-48 flex items-end justify-between px-6 gap-2">
@@ -438,7 +445,7 @@
                             const val = tendenciaAgregada[i];
                             const height = (val / maxVal) * 100;
                             return `
-                                <div class="flex-1 flex flex-col items-center group h-full justify-end">
+                                <div class="flex-1 flex flex-col items-center justify-end">
                                     <div class="w-full bg-green-600 rounded-t-sm min-h-[2px]" style="height: ${height}%"></div>
                                     <span class="text-[8px] font-bold text-slate-500 mt-2">${m}</span>
                                 </div>
@@ -446,33 +453,22 @@
                         }).join('')}
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-20 mt-20 text-center">
                     <div class="border-t border-slate-300 pt-4">
                         <p class="text-xs font-bold text-slate-800">Responsable de la Unidad</p>
-                        <p class="text-[10px] text-slate-400 mt-1">Firma y Sello</p>
                     </div>
                     <div class="border-t border-slate-300 pt-4">
                         <p class="text-xs font-bold text-slate-800">Validación Jurisdiccional</p>
-                        <p class="text-[10px] text-slate-400 mt-1">Firma y Sello</p>
                     </div>
                 </div>
-
-                <div class="mt-10 text-[9px] text-slate-400 text-center uppercase tracking-widest font-bold">
-                    Documento generado por el Sistema de Metas Jurisdiccional 2025
-                </div>
             `;
-
             document.getElementById('report-content').innerHTML = content;
             document.getElementById('print-container').innerHTML = content;
             document.getElementById('report-modal').classList.remove('hidden');
             lucide.createIcons();
         }
 
-        function closeReport() {
-            document.getElementById('report-modal').classList.add('hidden');
-        }
-
+        function closeReport() { document.getElementById('report-modal').classList.add('hidden'); }
         window.onload = updateDashboard;
     </script>
 </body>
