@@ -44,10 +44,10 @@
             </nav>
 
             <div class="mt-10 p-4 bg-slate-900 rounded-2xl text-white">
-                <p class="text-xs text-slate-400 mb-1">Corte de Información</p>
-                <p class="text-sm font-bold mb-3">Diciembre 2025</p>
+                <p class="text-xs text-slate-400 mb-1">Estatus Global</p>
+                <p id="corte-info" class="text-sm font-bold mb-3">Diciembre 2025</p>
                 <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
-                    <div class="bg-emerald-400 h-full w-full"></div>
+                    <div id="sidebar-progress" class="bg-emerald-400 h-full w-full"></div>
                 </div>
                 <p class="text-[10px] text-slate-500 mt-2 text-center uppercase">CIERRE CUBOS 2025</p>
             </div>
@@ -60,11 +60,32 @@
                     <h1 id="tab-title" class="text-3xl font-bold text-slate-800">Detecciones</h1>
                     <p class="text-slate-500 flex items-center gap-2 mt-1">
                         <i data-lucide="calendar" class="w-4 h-4"></i>
-                        Cierre Anual: Enero - Diciembre 2025
+                        <span id="periodo-header">Cierre Anual: Enero - Diciembre 2025</span>
                     </p>
                 </div>
 
-                <div class="flex gap-4">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- Selector de Mes / Concentrado -->
+                    <div class="relative">
+                        <select onchange="updateDashboard()" id="mes-select" class="appearance-none bg-white border border-slate-200 rounded-xl px-5 py-3 pr-10 shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none font-medium cursor-pointer min-w-[200px]">
+                            <option value="ANUAL">Concentrado Anual</option>
+                            <option value="0">Enero</option>
+                            <option value="1">Febrero</option>
+                            <option value="2">Marzo</option>
+                            <option value="3">Abril</option>
+                            <option value="4">Mayo</option>
+                            <option value="5">Junio</option>
+                            <option value="6">Julio</option>
+                            <option value="7">Agosto</option>
+                            <option value="8">Septiembre</option>
+                            <option value="9">Octubre</option>
+                            <option value="10">Noviembre</option>
+                            <option value="11" selected>Diciembre</option>
+                        </select>
+                        <i data-lucide="calendar-range" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none w-5 h-5"></i>
+                    </div>
+
+                    <!-- Selector de Unidad -->
                     <div class="relative">
                         <select onchange="updateDashboard()" id="unidad-select" class="appearance-none bg-white border border-slate-200 rounded-xl px-5 py-3 pr-10 shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none font-medium cursor-pointer min-w-[320px] max-w-full">
                             <option value="GENERAL">JURISDICCIÓN SANITARIA (TOTAL)</option>
@@ -96,19 +117,6 @@
                                 <option>UNIDAD MEDICA MOVIL CONTRERAS</option>
                                 <option>UNIDAD MÉDICA MÓVIL BARRÍO DE SANTIAGO</option>
                             </optgroup>
-                            <optgroup label="Otras Localidades">
-                                <option>TORTUGAS DE ARRIBA</option>
-                                <option>SAN CRISTOBAL</option>
-                                <option>SALITRAL DE CARRERA</option>
-                                <option>MILPA GRANDE</option>
-                                <option>LOS LOBOS</option>
-                                <option>LA MODERNA</option>
-                                <option>LA DULCITA</option>
-                                <option>GUADIANA</option>
-                                <option>EL POZO</option>
-                                <option>EL CARRIZAL</option>
-                                <option>EL CARMEN</option>
-                            </optgroup>
                         </select>
                         <i data-lucide="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none w-5 h-5"></i>
                     </div>
@@ -118,18 +126,18 @@
             <!-- Cards de Resumen -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <p class="text-sm text-slate-500 font-medium mb-1">Productividad Anual</p>
+                    <p id="label-prod-card" class="text-sm text-slate-500 font-medium mb-1">Productividad del Mes</p>
                     <div class="flex items-baseline gap-2">
                         <span id="stat-total" class="text-4xl font-black text-slate-800">0</span>
-                        <span class="text-emerald-500 text-sm font-bold">Total 2025</span>
+                        <span id="label-mes" class="text-indigo-500 text-sm font-bold">Dic 2025</span>
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <p class="text-sm text-slate-500 font-medium mb-1">Meta Programada 2025</p>
+                    <p id="label-meta-card" class="text-sm text-slate-500 font-medium mb-1">Meta Mensual Programada</p>
                     <span id="stat-meta" class="text-4xl font-black text-slate-800">0</span>
                 </div>
                 <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <p class="text-sm text-slate-500 font-medium mb-1">% de Cumplimiento Final</p>
+                    <p id="label-cumpl-card" class="text-sm text-slate-500 font-medium mb-1">% Cumplimiento Mensual</p>
                     <div class="flex items-center gap-4">
                         <span id="stat-porcentaje" class="text-4xl font-black text-indigo-600">0%</span>
                         <div class="flex-1 bg-slate-100 h-3 rounded-full overflow-hidden">
@@ -151,7 +159,8 @@
         lucide.createIcons();
 
         let currentTab = 'detecciones';
-        const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+        const nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        const mesesShort = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
         
         const configBase = {
             detecciones: [
@@ -181,15 +190,12 @@
 
         function changeTab(tabId) {
             currentTab = tabId;
-            
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('bg-indigo-50', 'text-indigo-700', 'ring-1', 'ring-indigo-100');
                 btn.classList.add('text-slate-500', 'hover:bg-slate-50');
             });
             const activeBtn = document.getElementById(`btn-${tabId}`);
             activeBtn.classList.add('bg-indigo-50', 'text-indigo-700', 'ring-1', 'ring-indigo-100');
-            activeBtn.classList.remove('text-slate-500', 'hover:bg-slate-50');
-
             document.getElementById('tab-title').innerText = activeBtn.innerText.trim();
             updateDashboard();
         }
@@ -197,14 +203,34 @@
         function updateDashboard() {
             const container = document.getElementById('charts-container');
             const selectedUnidad = document.getElementById('unidad-select').value;
+            const mesValue = document.getElementById('mes-select').value;
+            const isAnual = mesValue === 'ANUAL';
+            const selectedMonthIdx = isAnual ? null : parseInt(mesValue);
             
+            // Actualizar textos informativos
+            if (isAnual) {
+                document.getElementById('label-mes').innerText = "Anual 2025";
+                document.getElementById('corte-info').innerText = "Concentrado Anual 2025";
+                document.getElementById('sidebar-progress').style.width = "100%";
+                document.getElementById('label-prod-card').innerText = "Productividad Anual";
+                document.getElementById('label-meta-card').innerText = "Meta Anual Programada";
+                document.getElementById('label-cumpl-card').innerText = "% Cumplimiento Anual";
+            } else {
+                document.getElementById('label-mes').innerText = mesesShort[selectedMonthIdx] + " 2025";
+                document.getElementById('corte-info').innerText = nombresMeses[selectedMonthIdx] + " 2025";
+                document.getElementById('sidebar-progress').style.width = ((selectedMonthIdx + 1) / 12 * 100) + "%";
+                document.getElementById('label-prod-card').innerText = "Productividad del Mes";
+                document.getElementById('label-meta-card').innerText = "Meta Mensual Programada";
+                document.getElementById('label-cumpl-card').innerText = "% Cumplimiento Mensual";
+            }
+
             chartInstances.forEach(chart => chart.destroy());
             chartInstances = [];
             container.innerHTML = '';
 
             const indicadores = configBase[currentTab];
-            let totalValores = 0;
-            let totalMetas = 0;
+            let totalValoresVista = 0;
+            let totalMetasVista = 0;
 
             indicadores.forEach((ind, index) => {
                 const div = document.createElement('div');
@@ -220,39 +246,48 @@
                 `;
                 container.appendChild(div);
 
+                // Generar valores para el año
                 const seed = selectedUnidad === 'GENERAL' ? 1 : selectedUnidad.length / 10;
-                const valores = meses.map((m, i) => {
+                const valoresAnuales = mesesShort.map((m, i) => {
                     const metaMensual = ind.meta / 12;
-                    const variacion = (0.7 + (Math.random() * 0.5)) * seed;
+                    const hash = (selectedUnidad.length + i) % 10;
+                    const variacion = 0.7 + (hash / 20); 
                     return Math.floor(metaMensual * variacion);
                 });
 
-                const sumaIndicador = valores.reduce((a, b) => a + b, 0);
-                totalValores += sumaIndicador;
-                totalMetas += ind.meta;
+                // Lógica de cálculo según si es Anual o Mensual
+                if (isAnual) {
+                    totalValoresVista += valoresAnuales.reduce((a, b) => a + b, 0);
+                    totalMetasVista += ind.meta;
+                } else {
+                    totalValoresVista += valoresAnuales[selectedMonthIdx];
+                    totalMetasVista += (ind.meta / 12);
+                }
 
                 const ctx = document.getElementById(`chart-${index}`).getContext('2d');
                 const newChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: meses,
+                        labels: mesesShort,
                         datasets: [
                             {
-                                label: 'Logro 2025',
-                                data: valores,
+                                label: 'Logro',
+                                data: valoresAnuales,
                                 borderColor: '#4f46e5',
                                 backgroundColor: 'rgba(79, 70, 229, 0.1)',
                                 borderWidth: 4,
                                 fill: true,
                                 tension: 0.4,
-                                pointRadius: 3
+                                pointRadius: valoresAnuales.map((_, i) => !isAnual && i === selectedMonthIdx ? 8 : 3),
+                                pointBackgroundColor: valoresAnuales.map((_, i) => !isAnual && i === selectedMonthIdx ? '#4f46e5' : '#fff'),
+                                pointBorderWidth: 2
                             },
                             {
-                                label: 'Meta 2025',
-                                data: meses.map(() => ind.meta / 12),
+                                label: 'Meta Mensual',
+                                data: mesesShort.map(() => ind.meta / 12),
                                 borderColor: '#cbd5e1',
                                 borderDash: [5, 5],
-                                borderWidth: 2,
+                                borderWidth: 1,
                                 fill: false,
                                 pointRadius: 0
                             }
@@ -261,15 +296,9 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false }
-                        },
+                        plugins: { legend: { display: false } },
                         scales: {
-                            y: { 
-                                beginAtZero: true, 
-                                grid: { color: '#f1f5f9' }, 
-                                border: { display: false }
-                            },
+                            y: { beginAtZero: true, grid: { color: '#f1f5f9' }, border: { display: false } },
                             x: { grid: { display: false }, border: { display: false } }
                         }
                     }
@@ -277,9 +306,10 @@
                 chartInstances.push(newChart);
             });
 
-            const pct = Math.round((totalValores / totalMetas) * 100);
-            document.getElementById('stat-total').innerText = totalValores.toLocaleString();
-            document.getElementById('stat-meta').innerText = totalMetas.toLocaleString();
+            // Actualizar Cards con el dato de la vista seleccionada (Anual o Mes)
+            const pct = Math.round((totalValoresVista / totalMetasVista) * 100);
+            document.getElementById('stat-total').innerText = totalValoresVista.toLocaleString();
+            document.getElementById('stat-meta').innerText = Math.round(totalMetasVista).toLocaleString();
             document.getElementById('stat-porcentaje').innerText = pct + '%';
             document.getElementById('progress-bar').style.width = Math.min(pct, 100) + '%';
             
