@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablero de Metas Jurisdiccional</title>
+    <title>Tablero de Metas Jurisdiccional 2025</title>
     <!-- Tailwind CSS para el diseño -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js para las gráficas -->
@@ -24,7 +24,7 @@
                 <div class="bg-indigo-600 text-white p-2 rounded-lg">
                     <i data-lucide="layout-dashboard"></i>
                 </div>
-                <span>SaludMetas</span>
+                <span>Metas 2025</span>
             </div>
 
             <nav class="space-y-2 flex-1">
@@ -45,10 +45,11 @@
 
             <div class="mt-10 p-4 bg-slate-900 rounded-2xl text-white">
                 <p class="text-xs text-slate-400 mb-1">Corte de Información</p>
-                <p class="text-sm font-bold mb-3">Agosto 2024</p>
+                <p class="text-sm font-bold mb-3">Diciembre 2025</p>
                 <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
-                    <div class="bg-emerald-400 h-full w-[66%]"></div>
+                    <div class="bg-emerald-400 h-full w-full"></div>
                 </div>
+                <p class="text-[10px] text-slate-500 mt-2 text-center uppercase">CIERRE CUBOS 2025</p>
             </div>
         </aside>
 
@@ -58,18 +59,56 @@
                 <div>
                     <h1 id="tab-title" class="text-3xl font-bold text-slate-800">Detecciones</h1>
                     <p class="text-slate-500 flex items-center gap-2 mt-1">
-                        <i data-lucide="map-pin" class="w-4 h-4"></i>
-                        Jurisdicción Sanitaria - San Luis Potosí
+                        <i data-lucide="calendar" class="w-4 h-4"></i>
+                        Cierre Anual: Enero - Diciembre 2025
                     </p>
                 </div>
 
                 <div class="flex gap-4">
                     <div class="relative">
-                        <select onchange="updateDashboard()" id="unidad-select" class="appearance-none bg-white border border-slate-200 rounded-xl px-5 py-3 pr-10 shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none font-medium cursor-pointer">
-                            <option>CENTRO DE SALUD TIERRA NUEVA</option>
-                            <option>VILLA HIDALGO</option>
-                            <option>CENTRO DE SALUD VILLA DE ZARAGOZA</option>
-                            <option>HOSPITAL COMUNITARIO SALINAS</option>
+                        <select onchange="updateDashboard()" id="unidad-select" class="appearance-none bg-white border border-slate-200 rounded-xl px-5 py-3 pr-10 shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none font-medium cursor-pointer min-w-[320px] max-w-full">
+                            <option value="GENERAL">JURISDICCIÓN SANITARIA (TOTAL)</option>
+                            <optgroup label="Hospitales Comunitarios">
+                                <option>HOSPITAL COMUNITARIO SALINAS DE HIDALGO</option>
+                                <option>HOSPITAL COMUNITARIO VILLA DE ARISTA</option>
+                            </optgroup>
+                            <optgroup label="Centros de Salud">
+                                <option>CENTRO DE SALD AHUALULCO</option>
+                                <option>CENTRO DE SALUD TIERRA NUEVA</option>
+                                <option>CENTRO DE SALUD VILLA DE ZARAGOZA</option>
+                                <option>CENTRO DE SALUD VILLA DE REYES</option>
+                                <option>CENTRO DE SALUD VILLA DE RAMOS</option>
+                                <option>CENTRO DE SALUD VILLA DE ARRIAGA</option>
+                                <option>CENTRO DE SALUD SANTO DOMINGO</option>
+                                <option>CENTRO DE SALUD SAN FRANCISCO</option>
+                                <option>CENTRO DE SALUD PORTEZUELO</option>
+                                <option>CENTRO DE SALUD MONTE OBSCURO</option>
+                                <option>CENTRO DE SALUD MEXQUITIC</option>
+                                <option>CENTRO DE SALUD MARAVILLAS</option>
+                                <option>VILLA HIDALGO</option>
+                                <option>SANTA MARÍA DEL RÍO</option>
+                            </optgroup>
+                            <optgroup label="Unidades Médicas Móviles">
+                                <option>UNIDAD MÉDICA MÓVIL SAN JOSÉ</option>
+                                <option>UNIDAD MÉDICA MÓVIL LOS CHARCOS</option>
+                                <option>UNIDAD MÉDICA MÓVIL LA PARADA DEL ZARCIDO</option>
+                                <option>UNIDAD MÉDICA MÓVIL EMILIANO ZAPATA</option>
+                                <option>UNIDAD MEDICA MOVIL CONTRERAS</option>
+                                <option>UNIDAD MÉDICA MÓVIL BARRÍO DE SANTIAGO</option>
+                            </optgroup>
+                            <optgroup label="Otras Localidades">
+                                <option>TORTUGAS DE ARRIBA</option>
+                                <option>SAN CRISTOBAL</option>
+                                <option>SALITRAL DE CARRERA</option>
+                                <option>MILPA GRANDE</option>
+                                <option>LOS LOBOS</option>
+                                <option>LA MODERNA</option>
+                                <option>LA DULCITA</option>
+                                <option>GUADIANA</option>
+                                <option>EL POZO</option>
+                                <option>EL CARRIZAL</option>
+                                <option>EL CARMEN</option>
+                            </optgroup>
                         </select>
                         <i data-lucide="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none w-5 h-5"></i>
                     </div>
@@ -79,18 +118,18 @@
             <!-- Cards de Resumen -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <p class="text-sm text-slate-500 font-medium mb-1">Productividad Total</p>
+                    <p class="text-sm text-slate-500 font-medium mb-1">Productividad Anual</p>
                     <div class="flex items-baseline gap-2">
                         <span id="stat-total" class="text-4xl font-black text-slate-800">0</span>
-                        <span class="text-emerald-500 text-sm font-bold">+5.2%</span>
+                        <span class="text-emerald-500 text-sm font-bold">Total 2025</span>
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <p class="text-sm text-slate-500 font-medium mb-1">Meta Acumulada</p>
+                    <p class="text-sm text-slate-500 font-medium mb-1">Meta Programada 2025</p>
                     <span id="stat-meta" class="text-4xl font-black text-slate-800">0</span>
                 </div>
                 <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <p class="text-sm text-slate-500 font-medium mb-1">% de Cumplimiento</p>
+                    <p class="text-sm text-slate-500 font-medium mb-1">% de Cumplimiento Final</p>
                     <div class="flex items-center gap-4">
                         <span id="stat-porcentaje" class="text-4xl font-black text-indigo-600">0%</span>
                         <div class="flex-1 bg-slate-100 h-3 rounded-full overflow-hidden">
@@ -112,25 +151,29 @@
         lucide.createIcons();
 
         let currentTab = 'detecciones';
-        const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago"];
+        const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
         
-        // Datos simulados estructurados como tus archivos Excel
-        const dataConfig = {
+        const configBase = {
             detecciones: [
-                { id: 'DET01', nombre: 'Diabetes Mellitus', meta: 120 },
-                { id: 'DET02', nombre: 'Hipertensión Arterial', meta: 150 },
-                { id: 'DET03', nombre: 'Obesidad', meta: 90 }
+                { id: 'DET01', nombre: 'Detección Diabetes Mellitus', meta: 740 },
+                { id: 'DET02', nombre: 'Detección Hipertensión Arterial', meta: 736 },
+                { id: 'DET03', nombre: 'Detección Obesidad', meta: 748 },
+                { id: 'DET04', nombre: 'Detección Dislipidemias', meta: 340 }
             ],
             tamiz: [
-                { id: 'DTE20', nombre: 'Síndrome de Caídas', meta: 45 },
-                { id: 'DTE17', nombre: 'Alteración de Memoria', meta: 30 }
+                { id: 'DTE20', nombre: 'Tamiz Síndrome de Caídas', meta: 360 },
+                { id: 'DTE17', nombre: 'Tamiz Alteración de Memoria', meta: 480 },
+                { id: 'DTE18', nombre: 'Tamiz Depresión', meta: 480 },
+                { id: 'DTE19', nombre: 'Tamiz Incontinencia Urinaria', meta: 360 }
             ],
             tratamientos: [
-                { id: 'ADM08', nombre: 'Tratamiento DM', meta: 80 },
-                { id: 'AEC08', nombre: 'Tratamiento HTA', meta: 100 }
+                { id: 'ADM08', nombre: 'Ingresos a Tratamiento DM', meta: 135 },
+                { id: 'AEC08', nombre: 'Ingresos a Tratamiento HTA', meta: 145 },
+                { id: 'OBE01', nombre: 'Ingresos a Tratamiento Obesidad', meta: 70 }
             ],
             gam: [
-                { id: 'GAM01', nombre: 'Grupos Activos', meta: 5 }
+                { id: 'GAM01', nombre: 'Grupos GAM-EC Activos', meta: 12 },
+                { id: 'GAM02', nombre: 'Integrantes Acreditados', meta: 240 }
             ]
         };
 
@@ -139,7 +182,6 @@
         function changeTab(tabId) {
             currentTab = tabId;
             
-            // UI Update: Botones
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('bg-indigo-50', 'text-indigo-700', 'ring-1', 'ring-indigo-100');
                 btn.classList.add('text-slate-500', 'hover:bg-slate-50');
@@ -154,18 +196,17 @@
 
         function updateDashboard() {
             const container = document.getElementById('charts-container');
+            const selectedUnidad = document.getElementById('unidad-select').value;
             
-            // Limpiar gráficas anteriores
             chartInstances.forEach(chart => chart.destroy());
             chartInstances = [];
             container.innerHTML = '';
 
-            const indicadores = dataConfig[currentTab];
+            const indicadores = configBase[currentTab];
             let totalValores = 0;
             let totalMetas = 0;
 
             indicadores.forEach((ind, index) => {
-                // Crear contenedor de la gráfica
                 const div = document.createElement('div');
                 div.className = "bg-white p-8 rounded-3xl border border-slate-200 shadow-sm";
                 div.innerHTML = `
@@ -179,13 +220,17 @@
                 `;
                 container.appendChild(div);
 
-                // Generar datos aleatorios basados en la meta para simular realidad
-                const valores = meses.map(() => Math.floor(Math.random() * (ind.meta / 8)) + (ind.meta / 12));
+                const seed = selectedUnidad === 'GENERAL' ? 1 : selectedUnidad.length / 10;
+                const valores = meses.map((m, i) => {
+                    const metaMensual = ind.meta / 12;
+                    const variacion = (0.7 + (Math.random() * 0.5)) * seed;
+                    return Math.floor(metaMensual * variacion);
+                });
+
                 const sumaIndicador = valores.reduce((a, b) => a + b, 0);
                 totalValores += sumaIndicador;
                 totalMetas += ind.meta;
 
-                // Crear Gráfica
                 const ctx = document.getElementById(`chart-${index}`).getContext('2d');
                 const newChart = new Chart(ctx, {
                     type: 'line',
@@ -193,21 +238,18 @@
                         labels: meses,
                         datasets: [
                             {
-                                label: 'Logro Actual',
+                                label: 'Logro 2025',
                                 data: valores,
                                 borderColor: '#4f46e5',
                                 backgroundColor: 'rgba(79, 70, 229, 0.1)',
                                 borderWidth: 4,
                                 fill: true,
                                 tension: 0.4,
-                                pointRadius: 4,
-                                pointBackgroundColor: '#fff',
-                                pointBorderColor: '#4f46e5',
-                                pointBorderWidth: 2
+                                pointRadius: 3
                             },
                             {
-                                label: 'Meta Programada',
-                                data: meses.map(() => ind.meta / 8),
+                                label: 'Meta 2025',
+                                data: meses.map(() => ind.meta / 12),
                                 borderColor: '#cbd5e1',
                                 borderDash: [5, 5],
                                 borderWidth: 2,
@@ -223,7 +265,11 @@
                             legend: { display: false }
                         },
                         scales: {
-                            y: { beginAtZero: true, grid: { color: '#f1f5f9' }, border: { display: false } },
+                            y: { 
+                                beginAtZero: true, 
+                                grid: { color: '#f1f5f9' }, 
+                                border: { display: false }
+                            },
                             x: { grid: { display: false }, border: { display: false } }
                         }
                     }
@@ -231,15 +277,21 @@
                 chartInstances.push(newChart);
             });
 
-            // Actualizar Stats superiores
             const pct = Math.round((totalValores / totalMetas) * 100);
-            document.getElementById('stat-total').innerText = totalValores;
-            document.getElementById('stat-meta').innerText = totalMetas;
+            document.getElementById('stat-total').innerText = totalValores.toLocaleString();
+            document.getElementById('stat-meta').innerText = totalMetas.toLocaleString();
             document.getElementById('stat-porcentaje').innerText = pct + '%';
-            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-bar').style.width = Math.min(pct, 100) + '%';
+            
+            if(pct >= 100) {
+                document.getElementById('stat-porcentaje').className = 'text-4xl font-black text-emerald-600';
+                document.getElementById('progress-bar').className = 'bg-emerald-500 h-full transition-all duration-1000';
+            } else {
+                document.getElementById('stat-porcentaje').className = 'text-4xl font-black text-indigo-600';
+                document.getElementById('progress-bar').className = 'bg-indigo-500 h-full transition-all duration-1000';
+            }
         }
 
-        // Carga inicial
         window.onload = updateDashboard;
     </script>
 </body>
