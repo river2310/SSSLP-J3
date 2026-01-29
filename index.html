@@ -30,36 +30,36 @@
     <div class="flex flex-col md:flex-row min-h-screen no-print">
         <!-- Barra lateral -->
         <aside class="w-full md:w-72 bg-white border-r border-slate-200 p-6 flex flex-col">
-            <div class="mb-10">
+            <div class="mb-10 text-center">
                 <img src="https://d3dac9gdq8t83x.cloudfront.net/media/static/images/hor-verde.png" alt="Logo" class="w-full h-auto object-contain">
-                <div class="mt-2 pl-1">
+                <div class="mt-2 pl-1 border-t border-slate-100 pt-2">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">CUBOS 2025</span>
                 </div>
             </div>
 
             <nav class="space-y-2 flex-1">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Categorías</p>
-                <button onclick="changeTab('detecciones')" id="btn-detecciones" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all bg-indigo-50 text-indigo-700 ring-1 ring-indigo-100 font-medium">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Indicadores CUBOS</p>
+                <button onclick="changeTab('detecciones')" id="btn-detecciones" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all bg-indigo-50 text-indigo-700 ring-1 ring-indigo-100 font-medium text-sm">
                     <i data-lucide="activity" class="w-5 h-5"></i> Detecciones
                 </button>
-                <button onclick="changeTab('tamiz')" id="btn-tamiz" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 font-medium">
+                <button onclick="changeTab('tamiz')" id="btn-tamiz" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 font-medium text-sm">
                     <i data-lucide="clipboard-check" class="w-5 h-5"></i> Tamizajes
                 </button>
-                <button onclick="changeTab('tratamientos')" id="btn-tratamientos" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 font-medium">
+                <button onclick="changeTab('tratamientos')" id="btn-tratamientos" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 font-medium text-sm">
                     <i data-lucide="heart-pulse" class="w-5 h-5"></i> Tratamientos
                 </button>
-                <button onclick="changeTab('gam')" id="btn-gam" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 font-medium">
+                <button onclick="changeTab('gam')" id="btn-gam" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-500 hover:bg-slate-50 font-medium text-sm">
                     <i data-lucide="users" class="w-5 h-5"></i> Grupos GAM
                 </button>
             </nav>
 
             <div class="mt-10 p-4 bg-slate-900 rounded-2xl text-white">
-                <p class="text-xs text-slate-400 mb-1">Estatus Global</p>
+                <p class="text-xs text-slate-400 mb-1">Estatus de Información</p>
                 <p id="corte-info" class="text-sm font-bold mb-3">Diciembre 2025</p>
                 <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
                     <div id="sidebar-progress" class="bg-emerald-400 h-full w-full"></div>
                 </div>
-                <p class="text-[10px] text-slate-500 mt-2 text-center uppercase font-bold">CIERRE CUBOS 2025</p>
+                <p class="text-[10px] text-slate-500 mt-2 text-center uppercase font-bold tracking-tighter">CIERRE CUBOS ANUAL</p>
             </div>
         </aside>
 
@@ -67,85 +67,91 @@
         <main class="flex-1 p-6 md:p-10 overflow-y-auto">
             <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
-                    <h1 id="tab-title" class="text-3xl font-bold text-slate-800">Detecciones</h1>
-                    <p class="text-slate-500 flex items-center gap-2 mt-1">
-                        <i data-lucide="calendar" class="w-4 h-4"></i>
-                        <span id="periodo-header">Cierre Anual: Enero - Diciembre 2025</span>
-                    </p>
+                    <h1 id="tab-title" class="text-3xl font-bold text-slate-800 tracking-tight text-indigo-600">Detecciones</h1>
                 </div>
 
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-wrap gap-4 items-center">
                     <button onclick="openReport()" class="flex items-center gap-2 bg-slate-800 text-white px-5 py-3 rounded-xl shadow-lg hover:bg-slate-700 transition-all font-semibold">
                         <i data-lucide="printer" class="w-5 h-5"></i> Generar Reporte
                     </button>
 
-                    <select onchange="updateDashboard()" id="mes-select" class="bg-white border border-slate-200 rounded-xl px-4 py-3 font-medium outline-none">
-                        <option value="ANUAL">Concentrado Anual</option>
-                        <option value="0">Enero</option><option value="1">Febrero</option>
-                        <option value="2">Marzo</option><option value="3">Abril</option>
-                        <option value="4">Mayo</option><option value="5">Junio</option>
-                        <option value="6">Julio</option><option value="7">Agosto</option>
-                        <option value="8">Septiembre</option><option value="9">Octubre</option>
-                        <option value="10">Noviembre</option><option value="11" selected>Diciembre</option>
-                    </select>
+                    <div class="flex bg-white rounded-xl shadow-sm border border-slate-200 p-1">
+                        <select onchange="updateDashboard()" id="mes-select" class="px-3 py-2 font-medium outline-none cursor-pointer text-sm">
+                            <option value="ANUAL">Anual 2025</option>
+                            <option value="0">Enero</option><option value="1">Febrero</option>
+                            <option value="2">Marzo</option><option value="3">Abril</option>
+                            <option value="4">Mayo</option><option value="5">Junio</option>
+                            <option value="6">Julio</option><option value="7">Agosto</option>
+                            <option value="8">Septiembre</option><option value="9">Octubre</option>
+                            <option value="10">Noviembre</option><option value="11" selected>Diciembre</option>
+                        </select>
+                    </div>
 
-                    <select onchange="updateDashboard()" id="unidad-select" class="bg-white border border-slate-200 rounded-xl px-4 py-3 font-medium outline-none min-w-[300px]">
-                        <option value="GENERAL">JURISDICCIÓN SANITARIA (TOTAL)</option>
-                        <optgroup label="Unidades Médicas">
-                            <option>HOSPITAL COMUNITARIO SALINAS DE HIDALGO</option>
-                            <option>HOSPITAL COMUNITARIO VILLA DE ARISTA</option>
-                            <option>CENTRO DE SALD AHUALULCO</option>
-                            <option>CENTRO DE SALUD TIERRA NUEVA</option>
-                            <option>CENTRO DE SALUD VILLA DE ZARAGOZA</option>
-                            <option>CENTRO DE SALUD VILLA DE REYES</option>
-                            <option>CENTRO DE SALUD VILLA DE RAMOS</option>
-                            <option>CENTRO DE SALUD VILLA DE ARRIAGA</option>
-                            <option>CENTRO DE SALUD SANTO DOMINGO</option>
-                            <option>CENTRO DE SALUD SAN FRANCISCO</option>
-                            <option>CENTRO DE SALUD PORTEZUELO</option>
-                            <option>CENTRO DE SALUD MONTE OBSCURO</option>
-                            <option>CENTRO DE SALUD MEXQUITIC</option>
-                            <option>CENTRO DE SALUD MARAVILLAS</option>
-                            <option>VILLA HIDALGO</option>
-                            <option>SANTA MARÍA DEL RÍO</option>
-                            <option>TORTUGAS DE ARRIBA</option>
-                            <option>SAN CRISTOBAL</option>
-                            <option>SALITRAL DE CARRERA</option>
-                            <option>MILPA GRANDE</option>
-                            <option>LOS LOBOS</option>
-                            <option>LA MODERNA</option>
-                            <option>LA DULCITA</option>
-                            <option>GUADIANA</option>
-                            <option>EL POZO</option>
-                            <option>EL CARRIZAL</option>
-                            <option>EL CARMEN</option>
-                            <option>UNIDAD MÉDICA MÓVIL SAN JOSÉ</option>
-                            <option>UNIDAD MÉDICA MÓVIL LOS CHARCOS</option>
-                            <option>UNIDAD MÉDICA MÓVIL LA PARADA DEL ZARCIDO</option>
-                            <option>UNIDAD MÉDICA MÓVIL EMILIANO ZAPATA</option>
-                            <option>UNIDAD MEDICA MOVIL CONTRERAS</option>
-                            <option>UNIDAD MÉDICA MÓVIL BARRÍO DE SANTIAGO</option>
+                    <select onchange="updateDashboard()" id="unidad-select" class="bg-white border border-slate-200 rounded-xl px-4 py-3 font-medium outline-none shadow-sm min-w-[320px] cursor-pointer text-sm">
+                        <option value="GENERAL">JURISDICCIÓN SANITARIA (RESUMEN)</option>
+                        <optgroup label="Hospitales">
+                            <option value="HOSPITAL COMUNITARIO SALINAS DE HIDALGO">H.C. SALINAS DE HIDALGO</option>
+                            <option value="HOSPITAL COMUNITARIO VILLA DE ARISTA">H.C. VILLA DE ARISTA</option>
+                        </optgroup>
+                        <optgroup label="Centros de Salud">
+                            <option value="CENTRO DE SALD AHUALULCO">AHUALULCO</option>
+                            <option value="CENTRO DE SALUD CERRO GORDO">CERRO GORDO</option>
+                            <option value="CENTRO DE SALUD MARAVILLAS">MARAVILLAS</option>
+                            <option value="CENTRO DE SALUD MEXQUITIC">MEXQUITIC</option>
+                            <option value="CENTRO DE SALUD MONTE OBSCURO">MONTE OBSCURO</option>
+                            <option value="CENTRO DE SALUD PORTEZUELO">PORTEZUELO</option>
+                            <option value="CENTRO DE SALUD SAN FRANCISCO">SAN FRANCISCO</option>
+                            <option value="CENTRO DE SALUD SANTO DOMINGO">SANTO DOMINGO</option>
+                            <option value="CENTRO DE SALUD TIERRA NUEVA">TIERRA NUEVA</option>
+                            <option value="CENTRO DE SALUD VILLA DE ARRIAGA">VILLA DE ARRIAGA</option>
+                            <option value="CENTRO DE SALUD VILLA DE RAMOS">VILLA DE RAMOS</option>
+                            <option value="CENTRO DE SALUD VILLA DE REYES">VILLA DE REYES</option>
+                            <option value="CENTRO DE SALUD VILLA DE ZARAGOZA">VILLA DE ZARAGOZA</option>
+                            <option value="CARAVANA TIPO 3 VILLA HIDALGO">VILLA HIDALGO</option>
+                            <option value="SANTA MARÍA DEL RÍO">SANTA MARÍA DEL RÍO</option>
+                            <option value="TORTUGAS DE ARRIBA">TORTUGAS DE ARRIBA</option>
+                            <option value="EL CARMEN">EL CARMEN</option>
+                            <option value="EL CARRIZAL">EL CARRIZAL</option>
+                            <option value="EL POZO">EL POZO</option>
+                            <option value="GUADIANA">GUADIANA</option>
+                            <option value="LA DULCITA">LA DULCITA</option>
+                            <option value="LA MODERNA">LA MODERNA</option>
+                            <option value="LOS LOBOS">LOS LOBOS</option>
+                            <option value="MILPA GRANDE">MILPA GRANDE</option>
+                            <option value="SALITRAL DE CARRERA">SALITRAL DE CARRERA</option>
+                            <option value="SAN CRISTOBAL">SAN CRISTOBAL</option>
+                        </optgroup>
+                        <optgroup label="Unidades Médicas Móviles">
+                            <option value="UNIDAD MÉDICA MÓVIL SAN JOSÉ">SAN JOSÉ</option>
+                            <option value="UNIDAD MEDICA MOVIL CONTRERAS">CONTRERAS</option>
+                            <option value="UNIDAD MÉDICA MÓVIL BARRÍO DE SANTIAGO">BARRIO DE SANTIAGO</option>
+                            <option value="UNIDAD MÉDICA MÓVIL EMILIANO ZAPATA">EMILIANO ZAPATA</option>
+                            <option value="UNIDAD MÉDICA MÓVIL LA PARADA DEL ZARCIDO">LA PARADA DEL ZARCIDO</option>
+                            <option value="UNIDAD MÉDICA MÓVIL LOS CHARCOS">LOS CHARCOS</option>
                         </optgroup>
                     </select>
                 </div>
             </header>
 
-            <!-- Cards -->
+            <!-- Tarjetas de Resumen -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <p id="label-prod-card" class="text-sm text-slate-500 font-medium mb-1">Productividad del Mes</p>
-                    <span id="stat-total" class="text-4xl font-black text-slate-800">0</span>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden group transition-all hover:ring-2 hover:ring-indigo-500/20">
+                    <p id="label-prod-card" class="text-xs text-slate-500 font-bold uppercase mb-1">Productividad CUBOS</p>
+                    <div class="flex items-baseline gap-2">
+                        <span id="stat-total" class="text-4xl font-black text-slate-800">0</span>
+                        <span id="label-mes" class="text-indigo-500 text-sm font-bold bg-indigo-50 px-2 py-0.5 rounded-lg">Dic 2025</span>
+                    </div>
                 </div>
                 <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <p id="label-meta-card" class="text-sm text-slate-500 font-medium mb-1">Meta Programada</p>
+                    <p id="label-meta-card" class="text-xs text-slate-500 font-bold uppercase mb-1">Meta Programada</p>
                     <span id="stat-meta" class="text-4xl font-black text-slate-800">0</span>
                 </div>
                 <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
-                    <p id="label-cumpl-card" class="text-sm text-slate-500 font-medium mb-1">% Cumplimiento</p>
+                    <p id="label-cumpl-card" class="text-xs text-slate-500 font-bold uppercase mb-1">% Cumplimiento Real</p>
                     <div class="flex items-center gap-4">
                         <span id="stat-porcentaje" class="text-4xl font-black text-indigo-600">0%</span>
                         <div class="flex-1 bg-slate-100 h-3 rounded-full overflow-hidden">
-                            <div id="progress-bar" class="bg-indigo-500 h-full w-0"></div>
+                            <div id="progress-bar" class="bg-indigo-500 h-full w-0 transition-all duration-700"></div>
                         </div>
                     </div>
                 </div>
@@ -155,17 +161,23 @@
         </main>
     </div>
 
-    <!-- Modal Reporte -->
+    <!-- VISTA DE REPORTE -->
     <div id="report-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4 no-print">
         <div class="bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative p-10">
-            <div class="flex justify-between mb-8">
-                <h2 class="text-2xl font-bold">Reporte de Cierre 2025</h2>
-                <div class="flex gap-2">
-                    <button onclick="window.print()" class="bg-green-600 text-white px-4 py-2 rounded-lg font-bold">Imprimir / PDF</button>
-                    <button onclick="closeReport()" class="bg-slate-200 px-4 py-2 rounded-lg font-bold">Cerrar</button>
+            <div class="flex justify-between items-center mb-8 border-b pb-4">
+                <h2 class="text-2xl font-bold flex items-center gap-2 text-slate-800">
+                    <i data-lucide="file-spreadsheet" class="text-indigo-600"></i> Resumen Ejecutivo CUBOS 2025
+                </h2>
+                <div class="flex gap-3">
+                    <button onclick="window.print()" class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-indigo-700 flex items-center gap-2 transition-all">
+                        <i data-lucide="printer" class="w-4 h-4"></i> Imprimir
+                    </button>
+                    <button onclick="closeReport()" class="bg-slate-100 text-slate-600 px-6 py-2.5 rounded-xl font-bold hover:bg-slate-200 transition-all">
+                        Cerrar
+                    </button>
                 </div>
             </div>
-            <div id="report-content"></div>
+            <div id="report-content" class="bg-white"></div>
         </div>
     </div>
     <div id="print-container" class="print-only p-12 bg-white min-h-screen"></div>
@@ -174,32 +186,41 @@
         lucide.createIcons();
 
         // ---------------------------------------------------------
-        // BASE DE DATOS REAL (EXTRACTO DEL CSV)
-        // Solo se muestran valores reales. Si no está aquí, es 0.
+        // BASE DE DATOS INTEGRAL - INFORMACIÓN REAL DE HOJA CUBOS
         // ---------------------------------------------------------
         const ACHIEVEMENTS_DB = {
+            "UNIDAD MÉDICA MÓVIL SAN JOSÉ": {
+                "DET01": [0,0,0,0,1,0,0,0,0,0,0,0], 
+                "DET03": [0,0,0,0,1,1,1,4,4,4,0,0], // Mayo: 1, Junio: 1, Julio: 1, Agosto+: 4
+                "DTE17": [0,0,0,0,1,0,0,0,0,0,0,0],
+                "DTE19": [0,0,0,0,1,0,0,0,0,0,0,0]
+            },
+            "CARAVANA TIPO 3 VILLA HIDALGO": {
+                "DET01": [22,10,9,9,10,0,11,11,4,6,6,0],
+                "DET03": [6,6,2,5,1,0,6,4,2,5,3,1],
+                "DET04": [1,0,0,0,0,0,1,1,0,0,0,0]
+            },
+            "CENTRO DE SALUD VILLA DE ZARAGOZA": {
+                "GAM01": [0,0,0,1,1,1,1,1,1,1,1,1],
+                "DET01": [15,12,10,8,14,0,9,11,0,0,0,0],
+                "DTE20": [8,4,2,3,1,5,2,4,0,0,0,0]
+            },
+            "CENTRO DE SALUD CERRO GORDO": {
+                "GAM01": [0,0,0,1,0,0,0,0,0,0,0,0],
+                "DET01": [8,10,12,14,2,0,5,8,4,2,3,0]
+            },
             "CENTRO DE SALUD TIERRA NUEVA": {
                 "DET01": [23,14,13,13,3,3,2,1,0,0,0,0],
                 "DET03": [0,0,0,0,0,1,1,4,0,0,0,0],
                 "DTE20": [6,3,1,2,1,2,0,1,0,0,0,0],
                 "ADM08": [1,1,1,0,1,0,0,1,0,0,0,0],
-                "AEC08": [1,1,1,0,1,0,0,1,0,0,0,0],
-                "GAM01": [0,0,0,0,0,0,0,0,0,0,0,0],
-                "GAM02": [0,0,0,0,0,0,0,0,0,0,0,0]
-            },
-            "VILLA HIDALGO": {
-                "DET01": [22,10,9,9,10,0,11,11,4,6,6,0],
-                "DET03": [6,6,2,5,1,0,6,4,2,5,3,1]
-            },
-            "UNIDAD MÉDICA MÓVIL SAN JOSÉ": {
-                "DET03": [0,0,0,0,1,0,1,4,0,0,0,0],
-                "DTE17": [0,0,0,0,1,0,0,0,0,0,0,0]
+                "AEC08": [1,1,1,0,1,0,0,1,0,0,0,0]
             },
             "CENTRO DE SALUD PORTEZUELO": {
-                // Si la unidad no tiene datos en GAM, dejamos el objeto vacío o sin las llaves GAM
-                "DET01": [0,0,0,0,0,0,0,0,0,0,0,0]
+                "DET01": [0,0,0,0,0,0,0,0,0,0,0,0],
+                "GAM01": [0,0,0,0,0,0,0,0,0,0,0,0]
             }
-            // Las demás unidades se asumen en 0 si no se agregan aquí explícitamente
+            // Todas las demás unidades no listadas retornan ceros por defecto
         };
 
         const configBase = {
@@ -228,14 +249,15 @@
 
         let currentTab = 'detecciones';
         const mesesShort = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+        const nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
         let chartInstances = [];
         let lastGeneratedData = [];
 
         function changeTab(tabId) {
             currentTab = tabId;
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.replace('bg-indigo-50', 'text-slate-500');
-                btn.classList.remove('text-indigo-700', 'ring-1', 'ring-indigo-100');
+                btn.classList.remove('bg-indigo-50', 'text-indigo-700', 'ring-1', 'ring-indigo-100');
+                btn.classList.add('text-slate-500');
             });
             const activeBtn = document.getElementById(`btn-${tabId}`);
             activeBtn.classList.replace('text-slate-500', 'bg-indigo-50');
@@ -244,10 +266,8 @@
             updateDashboard();
         }
 
-        // Función para obtener datos reales del DB o retornar ceros
         function getRealData(unidad, indicadorId) {
             if (unidad === 'GENERAL') {
-                // Sumar todas las unidades
                 let total = new Array(12).fill(0);
                 Object.keys(ACHIEVEMENTS_DB).forEach(u => {
                     if (ACHIEVEMENTS_DB[u][indicadorId]) {
@@ -256,7 +276,6 @@
                 });
                 return total;
             }
-            // Retornar datos de la unidad específica o ceros si no existe
             return ACHIEVEMENTS_DB[unidad] && ACHIEVEMENTS_DB[unidad][indicadorId] 
                 ? ACHIEVEMENTS_DB[unidad][indicadorId] 
                 : new Array(12).fill(0);
@@ -268,6 +287,28 @@
             const mesValue = document.getElementById('mes-select').value;
             const isAnual = mesValue === 'ANUAL';
             const selectedMonthIdx = isAnual ? null : parseInt(mesValue);
+
+            const labelMes = document.getElementById('label-mes');
+            const statTotal = document.getElementById('stat-total');
+            const statMeta = document.getElementById('stat-meta');
+            const corteInfo = document.getElementById('corte-info');
+            const sideProgress = document.getElementById('sidebar-progress');
+            
+            if (isAnual) {
+                if(labelMes) labelMes.innerText = "Anual 2025";
+                if(corteInfo) corteInfo.innerText = "Concentrado Anual 2025";
+                if(sideProgress) sideProgress.style.width = "100%";
+                document.getElementById('label-prod-card').innerText = "Acumulado CUBOS";
+                document.getElementById('label-meta-card').innerText = "Meta Anual 2025";
+                document.getElementById('label-cumpl-card').innerText = "% Avance Anual";
+            } else {
+                if(labelMes) labelMes.innerText = mesesShort[selectedMonthIdx] + " 2025";
+                if(corteInfo) corteInfo.innerText = nombresMeses[selectedMonthIdx] + " 2025";
+                if(sideProgress) sideProgress.style.width = ((selectedMonthIdx + 1) / 12 * 100) + "%";
+                document.getElementById('label-prod-card').innerText = "Logro Mensual CUBOS";
+                document.getElementById('label-meta-card').innerText = "Meta Mensual Prog.";
+                document.getElementById('label-cumpl-card').innerText = "% Avance Mensual";
+            }
 
             chartInstances.forEach(c => c.destroy());
             chartInstances = [];
@@ -288,8 +329,8 @@
                 lastGeneratedData.push({ ...ind, logro: valVista, meta: Math.round(metaVista), series: realSeries });
 
                 const div = document.createElement('div');
-                div.className = "bg-white p-8 rounded-3xl border border-slate-200 shadow-sm";
-                div.innerHTML = `<h3 class="font-bold text-slate-800 mb-4">${ind.nombre} <span class="text-xs text-slate-400">(${ind.id})</span></h3><div class="h-48"><canvas id="chart-${index}"></canvas></div>`;
+                div.className = "bg-white p-8 rounded-3xl border border-slate-200 shadow-sm transition-all hover:shadow-md";
+                div.innerHTML = `<h3 class="font-bold text-slate-800 mb-4 flex items-center justify-between text-sm">${ind.nombre} <span class="bg-indigo-50 text-indigo-500 text-[10px] px-2 py-1 rounded font-mono uppercase tracking-tighter">${ind.id}</span></h3><div class="h-48"><canvas id="chart-${index}"></canvas></div>`;
                 container.appendChild(div);
 
                 const ctx = document.getElementById(`chart-${index}`).getContext('2d');
@@ -298,48 +339,82 @@
                     data: {
                         labels: mesesShort,
                         datasets: [
-                            { data: realSeries, borderColor: '#4f46e5', tension: 0.4, fill: true, backgroundColor: 'rgba(79, 70, 229, 0.05)', pointRadius: isAnual ? 2 : realSeries.map((_, i) => i === selectedMonthIdx ? 6 : 2) },
-                            { data: new Array(12).fill(ind.meta / 12), borderColor: '#cbd5e1', borderDash: [5, 5], pointRadius: 0 }
+                            { 
+                                label: 'Logro',
+                                data: realSeries, 
+                                borderColor: '#4f46e5', 
+                                tension: 0.4, 
+                                fill: true, 
+                                backgroundColor: 'rgba(79, 70, 229, 0.05)', 
+                                pointRadius: isAnual ? 3 : realSeries.map((_, i) => i === selectedMonthIdx ? 8 : 3),
+                                pointBackgroundColor: isAnual ? '#4f46e5' : realSeries.map((_, i) => i === selectedMonthIdx ? '#4f46e5' : '#fff'),
+                                borderWidth: 3
+                            },
+                            { 
+                                label: 'Meta',
+                                data: new Array(12).fill(ind.meta / 12), 
+                                borderColor: '#cbd5e1', 
+                                borderDash: [5, 5], 
+                                pointRadius: 0,
+                                borderWidth: 1
+                            }
                         ]
                     },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                    options: { 
+                        responsive: true, 
+                        maintainAspectRatio: false, 
+                        plugins: { legend: { display: false } },
+                        scales: { 
+                            y: { beginAtZero: true, grid: { color: '#f1f5f9' }, border: { display: false }, ticks: { font: { size: 9 } } }, 
+                            x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 9 } } } 
+                        }
+                    }
                 }));
             });
 
-            document.getElementById('stat-total').innerText = totalProd.toLocaleString();
-            document.getElementById('stat-meta').innerText = Math.round(totalMeta).toLocaleString();
+            if(statTotal) statTotal.innerText = totalProd.toLocaleString();
+            if(statMeta) statMeta.innerText = Math.round(totalMeta).toLocaleString();
             const pct = totalMeta > 0 ? Math.round((totalProd / totalMeta) * 100) : 0;
             document.getElementById('stat-porcentaje').innerText = pct + '%';
             document.getElementById('progress-bar').style.width = Math.min(pct, 100) + '%';
-            
-            // Textos de etiquetas
-            document.getElementById('label-prod-card').innerText = isAnual ? "Productividad Anual" : "Productividad Mensual";
-            document.getElementById('label-meta-card').innerText = isAnual ? "Meta Anual Prog." : "Meta Mensual Prog.";
-            document.getElementById('label-mes').innerText = isAnual ? "Acumulado 2025" : nombresMeses[selectedMonthIdx] + " 2025";
         }
 
-        const nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
         function openReport() {
-            const unidad = document.getElementById('unidad-select').value;
+            const unidad = document.getElementById('unidad-select').options[document.getElementById('unidad-select').selectedIndex].text;
             const periodo = document.getElementById('mes-select').options[document.getElementById('mes-select').selectedIndex].text;
-            let rows = lastGeneratedData.map(d => `<tr><td class="p-2 border">${d.id}</td><td class="p-2 border">${d.nombre}</td><td class="p-2 border text-center font-bold">${d.logro}</td><td class="p-2 border text-center">${d.meta}</td><td class="p-2 border text-right font-bold">${d.meta > 0 ? Math.round(d.logro/d.meta*100) : 0}%</td></tr>`).join('');
+            let rows = lastGeneratedData.map(d => `<tr><td class="p-3 border font-mono text-slate-400 text-xs">${d.id}</td><td class="p-3 border font-bold text-slate-700 text-sm">${d.nombre}</td><td class="p-3 border text-center font-bold text-slate-900">${d.logro}</td><td class="p-3 border text-center text-slate-500">${d.meta}</td><td class="p-3 border text-right font-black ${d.logro >= d.meta ? 'text-green-600' : 'text-indigo-600'}">${d.meta > 0 ? Math.round(d.logro/d.meta*100) : 0}%</td></tr>`).join('');
             
             const html = `
-                <div class="flex justify-between items-center border-b-2 pb-4 mb-6">
-                    <img src="https://d3dac9gdq8t83x.cloudfront.net/media/static/images/hor-verde.png" class="h-12">
-                    <div class="text-right"><h2 class="font-bold">REPORTE DE METAS 2025</h2><p class="text-xs">${periodo}</p></div>
+                <div class="flex justify-between items-center border-b-4 border-slate-900 pb-6 mb-8">
+                    <img src="https://d3dac9gdq8t83x.cloudfront.net/media/static/images/hor-verde.png" class="h-16">
+                    <div class="text-right">
+                        <h2 class="text-2xl font-black text-slate-800">REPORTE CUBOS 2025</h2>
+                        <p class="text-xs font-bold uppercase text-slate-500 tracking-widest mt-1">${periodo}</p>
+                    </div>
                 </div>
-                <p class="mb-4"><strong>Unidad:</strong> ${unidad}</p>
-                <table class="w-full border-collapse text-sm mb-8">
-                    <thead class="bg-slate-100"><tr><th class="p-2 border text-left">ID</th><th class="p-2 border text-left">Indicador</th><th class="p-2 border">Logro</th><th class="p-2 border">Meta</th><th class="p-2 border text-right">Avance</th></tr></thead>
-                    <tbody>${rows}</tbody>
+                <div class="mb-8 p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Unidad Médica / Jurisdicción</p>
+                    <p class="text-xl font-bold text-slate-800 tracking-tight">${unidad}</p>
+                </div>
+                <table class="w-full border-collapse text-sm mb-10 overflow-hidden rounded-t-xl shadow-sm bg-white">
+                    <thead><tr class="bg-slate-900 text-white font-bold"><th class="p-4 text-left">ID</th><th class="p-4 text-left">Variable CUBOS</th><th class="p-4">Productividad</th><th class="p-4">Meta Prog.</th><th class="p-4 text-right">Avance</th></tr></thead>
+                    <tbody class="divide-y divide-slate-100">${rows}</tbody>
                 </table>
-                <div class="grid grid-cols-2 gap-10 text-center mt-12"><div class="border-t pt-2">Responsable Unidad</div><div class="border-t pt-2">Validación Jurisdiccional</div></div>
+                <div class="grid grid-cols-2 gap-20 text-center mt-24">
+                    <div class="border-t-2 border-slate-300 pt-3">
+                        <p class="font-bold text-slate-800 text-sm">Firma del Responsable</p>
+                        <p class="text-[10px] text-slate-400 uppercase tracking-tighter mt-1">Nombre y Sello de la Unidad</p>
+                    </div>
+                    <div class="border-t-2 border-slate-300 pt-3">
+                        <p class="font-bold text-slate-800 text-sm">Sello de la Jurisdicción</p>
+                        <p class="text-[10px] text-slate-400 uppercase tracking-tighter mt-1">Validación y Control de Metas</p>
+                    </div>
+                </div>
             `;
             document.getElementById('report-content').innerHTML = html;
             document.getElementById('print-container').innerHTML = html;
             document.getElementById('report-modal').classList.remove('hidden');
+            lucide.createIcons();
         }
 
         function closeReport() { document.getElementById('report-modal').classList.add('hidden'); }
