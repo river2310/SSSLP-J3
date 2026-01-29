@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablero de Metas Jurisdiccional 2025</title>
+    <title>Metas 2025 - Tablero Jurisdiccional</title>
+    
+    <!-- Favicon del navegador -->
+    <link rel="icon" type="image/png" href="https://d3dac9gdq8t83x.cloudfront.net/media/static/images/favicons/logo-verde.png">
+    
     <!-- Tailwind CSS para el diseño -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js para las gráficas -->
@@ -13,18 +17,27 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background-color: white !important; }
+            .card { border: none !important; shadow: none !important; }
+        }
+        .print-only { display: none; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
 
-    <div class="flex flex-col md:flex-row min-h-screen">
+    <div class="flex flex-col md:flex-row min-h-screen no-print">
         <!-- Barra lateral -->
         <aside class="w-full md:w-72 bg-white border-r border-slate-200 p-6 flex flex-col">
-            <div class="flex items-center gap-3 text-indigo-600 font-bold text-xl mb-10">
-                <div class="bg-indigo-600 text-white p-2 rounded-lg">
-                    <i data-lucide="layout-dashboard"></i>
+            <!-- Logo de la página -->
+            <div class="mb-10">
+                <img src="https://d3dac9gdq8t83x.cloudfront.net/media/static/images/hor-verde.png" alt="Logo Metas 2025" class="w-full h-auto object-contain">
+                <div class="mt-2 pl-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tablero de Gestión 2025</span>
                 </div>
-                <span>Metas 2025</span>
             </div>
 
             <nav class="space-y-2 flex-1">
@@ -64,10 +77,16 @@
                     </p>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex flex-wrap gap-4">
+                    <!-- Botón de Reporte -->
+                    <button onclick="openReport()" class="flex items-center gap-2 bg-slate-800 text-white px-5 py-3 rounded-xl shadow-lg hover:bg-slate-700 transition-all font-semibold">
+                        <i data-lucide="printer" class="w-5 h-5"></i>
+                        Generar Reporte
+                    </button>
+
                     <!-- Selector de Mes / Concentrado -->
                     <div class="relative">
-                        <select onchange="updateDashboard()" id="mes-select" class="appearance-none bg-white border border-slate-200 rounded-xl px-5 py-3 pr-10 shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none font-medium cursor-pointer min-w-[200px]">
+                        <select onchange="updateDashboard()" id="mes-select" class="appearance-none bg-white border border-slate-200 rounded-xl px-5 py-3 pr-10 shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none font-medium cursor-pointer min-w-[180px]">
                             <option value="ANUAL">Concentrado Anual</option>
                             <option value="0">Enero</option>
                             <option value="1">Febrero</option>
@@ -109,14 +128,6 @@
                                 <option>VILLA HIDALGO</option>
                                 <option>SANTA MARÍA DEL RÍO</option>
                             </optgroup>
-                            <optgroup label="Unidades Médicas Móviles">
-                                <option>UNIDAD MÉDICA MÓVIL SAN JOSÉ</option>
-                                <option>UNIDAD MÉDICA MÓVIL LOS CHARCOS</option>
-                                <option>UNIDAD MÉDICA MÓVIL LA PARADA DEL ZARCIDO</option>
-                                <option>UNIDAD MÉDICA MÓVIL EMILIANO ZAPATA</option>
-                                <option>UNIDAD MEDICA MOVIL CONTRERAS</option>
-                                <option>UNIDAD MÉDICA MÓVIL BARRÍO DE SANTIAGO</option>
-                            </optgroup>
                         </select>
                         <i data-lucide="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none w-5 h-5"></i>
                     </div>
@@ -148,14 +159,35 @@
             </div>
 
             <!-- Area de Gráficas -->
-            <div id="charts-container" class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                <!-- Las gráficas se generan aquí con JS -->
-            </div>
+            <div id="charts-container" class="grid grid-cols-1 xl:grid-cols-2 gap-8"></div>
         </main>
     </div>
 
+    <!-- VISTA DE REPORTE (MODAL E IMPRESIÓN) -->
+    <div id="report-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4 no-print">
+        <div class="bg-white w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative">
+            <div class="sticky top-0 bg-white border-b border-slate-100 p-4 flex justify-between items-center z-10">
+                <h2 class="font-bold text-slate-800">Vista Previa de Reporte</h2>
+                <div class="flex gap-2">
+                    <button onclick="window.print()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-indigo-700">
+                        <i data-lucide="printer" class="w-4 h-4"></i> Imprimir / PDF
+                    </button>
+                    <button onclick="closeReport()" class="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-sm font-bold hover:bg-slate-200">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+            
+            <div id="report-content" class="p-10 text-slate-900 bg-white">
+                <!-- Se llena dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR EXCLUSIVO PARA IMPRESIÓN -->
+    <div id="print-container" class="print-only p-12 bg-white min-h-screen"></div>
+
     <script>
-        // Inicializar iconos
         lucide.createIcons();
 
         let currentTab = 'detecciones';
@@ -186,6 +218,7 @@
             ]
         };
 
+        let lastGeneratedData = [];
         let chartInstances = [];
 
         function changeTab(tabId) {
@@ -207,7 +240,6 @@
             const isAnual = mesValue === 'ANUAL';
             const selectedMonthIdx = isAnual ? null : parseInt(mesValue);
             
-            // Actualizar textos informativos
             if (isAnual) {
                 document.getElementById('label-mes').innerText = "Anual 2025";
                 document.getElementById('corte-info').innerText = "Concentrado Anual 2025";
@@ -231,6 +263,8 @@
             const indicadores = configBase[currentTab];
             let totalValoresVista = 0;
             let totalMetasVista = 0;
+            
+            lastGeneratedData = [];
 
             indicadores.forEach((ind, index) => {
                 const div = document.createElement('div');
@@ -240,13 +274,10 @@
                         <h3 class="font-bold text-slate-800 text-lg">${ind.nombre}</h3>
                         <span class="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-1 rounded uppercase tracking-wider">${ind.id}</span>
                     </div>
-                    <div class="h-64">
-                        <canvas id="chart-${index}"></canvas>
-                    </div>
+                    <div class="h-64"><canvas id="chart-${index}"></canvas></div>
                 `;
                 container.appendChild(div);
 
-                // Generar valores para el año
                 const seed = selectedUnidad === 'GENERAL' ? 1 : selectedUnidad.length / 10;
                 const valoresAnuales = mesesShort.map((m, i) => {
                     const metaMensual = ind.meta / 12;
@@ -255,14 +286,21 @@
                     return Math.floor(metaMensual * variacion);
                 });
 
-                // Lógica de cálculo según si es Anual o Mensual
+                let logro = 0;
+                let meta = 0;
+
                 if (isAnual) {
-                    totalValoresVista += valoresAnuales.reduce((a, b) => a + b, 0);
-                    totalMetasVista += ind.meta;
+                    logro = valoresAnuales.reduce((a, b) => a + b, 0);
+                    meta = ind.meta;
                 } else {
-                    totalValoresVista += valoresAnuales[selectedMonthIdx];
-                    totalMetasVista += (ind.meta / 12);
+                    logro = valoresAnuales[selectedMonthIdx];
+                    meta = (ind.meta / 12);
                 }
+
+                totalValoresVista += logro;
+                totalMetasVista += meta;
+
+                lastGeneratedData.push({ ...ind, logro, meta: Math.round(meta), series: valoresAnuales });
 
                 const ctx = document.getElementById(`chart-${index}`).getContext('2d');
                 const newChart = new Chart(ctx, {
@@ -283,7 +321,7 @@
                                 pointBorderWidth: 2
                             },
                             {
-                                label: 'Meta Mensual',
+                                label: 'Meta',
                                 data: mesesShort.map(() => ind.meta / 12),
                                 borderColor: '#cbd5e1',
                                 borderDash: [5, 5],
@@ -306,7 +344,6 @@
                 chartInstances.push(newChart);
             });
 
-            // Actualizar Cards con el dato de la vista seleccionada (Anual o Mes)
             const pct = Math.round((totalValoresVista / totalMetasVista) * 100);
             document.getElementById('stat-total').innerText = totalValoresVista.toLocaleString();
             document.getElementById('stat-meta').innerText = Math.round(totalMetasVista).toLocaleString();
@@ -320,6 +357,112 @@
                 document.getElementById('stat-porcentaje').className = 'text-4xl font-black text-indigo-600';
                 document.getElementById('progress-bar').className = 'bg-indigo-500 h-full transition-all duration-1000';
             }
+        }
+
+        // --- FUNCIONES DE REPORTE ---
+        function openReport() {
+            const unidad = document.getElementById('unidad-select').value;
+            const periodo = document.getElementById('mes-select').options[document.getElementById('mes-select').selectedIndex].text;
+            const categoria = document.getElementById('tab-title').innerText;
+            const fechaActual = new Date().toLocaleDateString();
+
+            const content = `
+                <div class="border-b-4 border-slate-900 pb-8 mb-8 flex justify-between items-center">
+                    <div class="flex items-center gap-6">
+                        <img src="https://d3dac9gdq8t83x.cloudfront.net/media/static/images/hor-verde.png" alt="Logo" class="h-16 w-auto">
+                        <div>
+                            <h1 class="text-2xl font-black uppercase tracking-tight">Reporte Jurisdiccional 2025</h1>
+                            <p class="text-slate-500 font-bold uppercase tracking-widest text-xs mt-1">Indicadores de Salud Pública - CIERRE CUBOS</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-bold text-slate-400">FECHA DE GENERACIÓN</p>
+                        <p class="font-bold">${fechaActual}</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8 mb-10">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Unidad Médica / Jurisdicción</p>
+                        <p class="text-xl font-bold text-slate-800">${unidad === 'GENERAL' ? 'JURISDICCIÓN SANITARIA SAN LUIS POTOSÍ' : unidad}</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Periodo del Reporte</p>
+                        <p class="text-xl font-bold text-slate-800">${periodo}</p>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-black text-slate-900 mb-4 border-l-4 border-green-600 pl-3 uppercase">Resumen de ${categoria}</h3>
+                
+                <table class="w-full mb-10 text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900 text-white">
+                            <th class="p-4 text-left rounded-tl-xl">ID</th>
+                            <th class="p-4 text-left">Indicador</th>
+                            <th class="p-4 text-center">Logro</th>
+                            <th class="p-4 text-center">Meta Prog.</th>
+                            <th class="p-4 text-right rounded-tr-xl">Avance %</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 border-x border-b border-slate-200">
+                        ${lastGeneratedData.map(ind => {
+                            const pct = Math.round((ind.logro / ind.meta) * 100);
+                            return `
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 font-mono font-bold text-slate-400">${ind.id}</td>
+                                    <td class="p-4 font-bold text-slate-800">${ind.nombre}</td>
+                                    <td class="p-4 text-center font-bold">${ind.logro.toLocaleString()}</td>
+                                    <td class="p-4 text-center text-slate-500">${ind.meta.toLocaleString()}</td>
+                                    <td class="p-4 text-right">
+                                        <span class="font-black ${pct >= 100 ? 'text-emerald-600' : 'text-indigo-600'}">${pct}%</span>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+
+                <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200 mb-10">
+                    <p class="text-[10px] font-black text-slate-400 uppercase mb-4 text-center">Gráfica de Tendencia Anual</p>
+                    <div class="h-48 flex items-end justify-between px-4 gap-2">
+                        ${mesesShort.map((m, i) => {
+                            const val = lastGeneratedData[0].series[i];
+                            const max = Math.max(...lastGeneratedData[0].series);
+                            const height = (val / max) * 100;
+                            return `
+                                <div class="flex-1 flex flex-col items-center">
+                                    <div class="w-full bg-green-600 rounded-t-sm" style="height: ${height}%"></div>
+                                    <span class="text-[8px] font-bold text-slate-400 mt-2">${m}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-20 mt-20 text-center">
+                    <div class="border-t border-slate-300 pt-4">
+                        <p class="text-xs font-bold text-slate-800">Responsable de la Unidad</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Firma y Sello</p>
+                    </div>
+                    <div class="border-t border-slate-300 pt-4">
+                        <p class="text-xs font-bold text-slate-800">Validación Jurisdiccional</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Firma y Sello</p>
+                    </div>
+                </div>
+
+                <div class="mt-10 text-[9px] text-slate-400 text-center uppercase tracking-widest font-bold">
+                    Documento generado por el Sistema de Metas Jurisdiccional 2025
+                </div>
+            `;
+
+            document.getElementById('report-content').innerHTML = content;
+            document.getElementById('print-container').innerHTML = content;
+            document.getElementById('report-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeReport() {
+            document.getElementById('report-modal').classList.add('hidden');
         }
 
         window.onload = updateDashboard;
